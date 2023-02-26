@@ -12,11 +12,13 @@ intents.members = True
 intents.message_content = True
 
 # create a new bot bot with a command prefix of '?'
-bot = Bot(command_prefix=prefix, intents=intents)
+bot = Bot(command_prefix=commands.when_mentioned_or(prefix), intents=intents)
 
 # define a command that responds to the message '?hello'
-@bot.command(name='hello')
-async def say_hello(ctx):
+@bot.command(name='hello',
+        description="say hello to some lone;y fuck that needs a friend",
+    )
+async def hello(ctx):
     # check if the command was sent in a server/channel
     if isinstance(ctx.channel, discord.TextChannel):
         # check if the bot has permission to send messages in the channel
@@ -30,14 +32,32 @@ async def say_hello(ctx):
         # send an error message in a DM if the command was not sent in a server/channel
         await ctx.author.send('This command can only be used in a server/channel.')
 
+# define a command that responds to the message '?gay'
+@bot.command(name='gay',
+        description='Call ComputerTech gay',
+    )
+async def gay(ctx):
+    # check if the command was sent in a server/channel
+    if isinstance(ctx.channel, discord.TextChannel):
+        # check if the bot has permission to send messages in the channel
+        if ctx.channel.permissions_for(ctx.me).send_messages:
+            # send a message to the channel with the content 'Me? no. You must be talking about ComputerTech'
+            await ctx.send('Me? no. You must be talking about ComputerTech')
+        else:
+            # send an error message in the channel if the bot does not have permission to send messages
+            print('I don\'t have permission to send messages in this channel.')
+    else:
+        # send an error message in a DM if the command was not sent in a server/channel
+        await ctx.author.send('This command can only be used in a server/channel.')
+
 @bot.command(name='ping')
 async def ping(ctx):
-        embed = discord.Embed(
-            title='🏓 Pong!',
-            description=f'The bot latency is {round(self.bot.latency * 1000)}ms.',
-            color=0x9C84EF
-        )
-        await ctx.send(embed=embed)        
+    embed = discord.Embed(
+        title='🏓 Pong!',
+        description=f'The bot latency is {round(bot.latency * 1000)}ms.',
+        color=0x9C84EF
+    )
+    await ctx.send(embed=embed)
 
 # define an event that prints a message in the terminal when the bot is ready
 @bot.event
