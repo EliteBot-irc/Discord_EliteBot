@@ -68,7 +68,7 @@ async def weather(ctx,*, location: str = '+') -> None:
             return
             
     # If Loc is mom joke         
-    elif location.find('house') != -1 and location.find('mom') != -1:
+    if location.find('house') != -1 and location.find('mom') != -1:
         embed = discord.Embed(
             title=f'Weather in {location}',
             description=f'Temperature: 🌡️ It\'s always warm in her bed',
